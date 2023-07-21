@@ -1,43 +1,31 @@
+import { useRef } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 import "./Style.css";
-import { useEffect, useRef, useState } from "react";
 
 export const NavBar = () => {
+    const navRef = useRef();
 
-    const lastScrollTop = useRef(0);
-    const [isNavbarVisible , setNavbarVisible] = useState(true);
-
-    const handleScroll =() => {
-        const {pageYOffset} = window;
-        if (pageYOffset > lastScrollTop.current){
-            //downward scroll
-
-            setNavbarVisible(false);
-        }else if(
-            pageYOffset < lastScrollTop.current
-        ) {
-            //upward scroll
-            setNavbarVisible(true);
-            //else was horizontal scroll
-            lastScrollTop.current = pageYOffset;
-        }
+    const showNavBar = () => {
+        navRef.current.classList.toggle("responsive_nav");
     }
 
-    useEffect(() => {
-      window.addEventListener('scroll', handleScroll, {passive: true});
-      return window.removeEventListener("scroll", handleScroll)
-    
-    }, []);
-    
   return (
-    <>
-        <nav className={`${isNavbarVisible ? "visible" : ""}`}>
-        {/* <img src={logo}/> */}
-        <div className="nav-items">
-            <a>Portafolio</a>
-            <a>Portafolio</a>
-            <a>Portafolio</a>
-        </div>
-        </nav>
-    </>
+        <header>
+            <h3>Logo</h3>
+            <nav ref={navRef}>
+                <a href="#">Home</a>
+                <a href="#">My work</a>
+                <a href="#">Blog</a>
+                <a href="#">About</a>
+                <button onClick={showNavBar} className="nav-btn nav-close-btn">
+                    <FaTimes/>
+                </button>
+                
+            </nav>
+
+            <button onClick={showNavBar} className="nav-btn">
+                <FaBars/>
+            </button>
+        </header>
   )
 }
